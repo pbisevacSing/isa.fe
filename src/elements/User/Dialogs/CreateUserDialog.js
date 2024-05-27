@@ -2,12 +2,11 @@ import {Button, Col, Modal, ModalBody, ModalFooter, ModalHeader, Row} from "reac
 import {useListActions} from "@/contexts/listActionContext";
 import listAction from "@/core/listAction";
 import {useForm} from "react-hook-form";
-import {post, put} from "@/core/httpClient";
-import {useEffect} from "react";
-import {toast, ToastContainer} from "react-toastify";
+import {post} from "@/core/httpClient";
+import {toast} from "react-toastify";
 
-const UpdateUserDialog = ({isOpen}) => {
-    const {state, dispatch} = useListActions();
+const CreateUserDialog = ({isOpen}) => {
+    const {dispatch} = useListActions();
 
     const toggle = () => dispatch({
         type: listAction.RESET
@@ -20,17 +19,8 @@ const UpdateUserDialog = ({isOpen}) => {
         formState: {errors},
         setValue
     } = useForm({
-        mode: "onSubmit",
-        defaultValues: state.row
+        mode: "onSubmit"
     });
-
-    useEffect(() => {
-        setValue("firstName", state.row.firstName);
-        setValue("lastName", state.row.lastName);
-        setValue("email", state.row.email);
-        setValue("id", state.row.id);
-        setValue("contactNumber", state.row.contactNumber);
-    }, [state]);
 
     return (
         <Modal isOpen={isOpen} toggle={toggle}>
@@ -71,6 +61,8 @@ const UpdateUserDialog = ({isOpen}) => {
                         <input type="text" className="form-control"
                                placeholder="Contact number" {...register("contactNumber", {
                             required: "Contact number is required!",
+                            maxLength: 14,
+                            minLength: 9,
                             validate: (value) => {
                                 if (!/^[0-9]*$/.test(value)) {
                                     return "You can enter only numbers";
@@ -84,8 +76,7 @@ const UpdateUserDialog = ({isOpen}) => {
                 </Row>
                 <Row className="mb-3">
                     <Col md={6} className="mb-1">
-                        <input type="password" className="form-control"
-                               placeholder="Password" {...register("password", {
+                        <input type="password" className="form-control" placeholder="Password" {...register("password", {
                             required: "Password is required!"
                         })} />
                         {errors && errors.password && (
@@ -98,10 +89,10 @@ const UpdateUserDialog = ({isOpen}) => {
             <ModalFooter>
                 <Button className="btn btn-success" type="button" onClick={() => {
                     handleSubmit(async (data) => {
-                        let result = await put("/user/update", data);
+                        let result = await post("/user/create", data);
 
                         if (result && result.status === 200) {
-                            toast.success("Successfully updated!");
+                            toast.success("Successfully created!");
                             dispatch({
                                 type: listAction.RELOAD
                             });
@@ -118,4 +109,4 @@ const UpdateUserDialog = ({isOpen}) => {
     );
 }
 
-export default UpdateUserDialog;
+export default CreateUserDialog;

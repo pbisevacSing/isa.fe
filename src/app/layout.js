@@ -1,10 +1,12 @@
 'use client'
 
 import "bootstrap/dist/css/bootstrap.min.css"
+import 'react-toastify/dist/ReactToastify.css';
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import {TestProvider} from "@/contexts/testContext";
 import {ListActionProvider} from "@/contexts/listActionContext";
+import {toast, ToastContainer} from "react-toastify";
 
 export default function RootLayout({children}) {
     return (
@@ -20,6 +22,7 @@ export default function RootLayout({children}) {
                 </TestProvider>
             </main>
             <Footer />
+            <ToastContainer />
         </div>
         </body>
         </html>

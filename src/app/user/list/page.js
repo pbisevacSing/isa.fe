@@ -2,12 +2,13 @@
 import useListData from "@/hooks/useListData";
 import DataTable from "react-data-table-component";
 import {useEffect, useState} from "react";
-import {Button, Row, Spinner} from "reactstrap";
+import {Button, Card, CardBody, CardHeader, Row, Spinner} from "reactstrap";
 import {useTestActions} from "@/contexts/testContext";
 import {CiEdit, CiTrash} from "react-icons/ci";
 import {useListActions} from "@/contexts/listActionContext";
 import listAction from "@/core/listAction";
 import AllUserDialogs from "@/elements/User/AllUserDialogs";
+import {IoAddCircleOutline} from "react-icons/io5";
 
 export const tableColumns = [
     {
@@ -33,7 +34,7 @@ export const tableColumns = [
 
             return (
                 <>
-                    <Button className="btn btn-light me-3" variant="outline-light" onClick={() => {
+                    <Button className="btn btn-primary me-3" variant="outline-light" onClick={() => {
                         dispatch({
                             type: listAction.UPDATE,
                             payload: row
@@ -41,7 +42,7 @@ export const tableColumns = [
                     }}>
                         <CiEdit/>
                     </Button>
-                    <Button className="btn btn-light" variant="outline-light" onClick={() => {
+                    <Button className="btn btn-danger" variant="outline-light" onClick={() => {
                         dispatch({
                             type: listAction.DELETE,
                             payload: row
@@ -59,7 +60,7 @@ export const tableColumns = [
 export default function UserList() {
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize, setPageSize] = useState(10);
-    const {state} = useListActions();
+    const {state, dispatch} = useListActions();
 
     const {
         getData,
@@ -72,8 +73,7 @@ export default function UserList() {
     }, [pageSize, pageNumber]);
 
     useEffect(() => {
-        if (state.reload)
-        {
+        if (state.reload) {
             getData(`user/get-page-list?pageNumber=${pageNumber - 1}&pageSize=${pageSize}`);
         }
     }, [state]);
@@ -89,20 +89,34 @@ export default function UserList() {
 
     return (
         <>
-            {data != null && <DataTable data={data.users}
-                                        columns={tableColumns}
-                                        striped={true}
-                                        noHeader={true}
-                                        pagination
-                                        paginationServer
-                                        progressPending={loading}
-                                        paginationTotalRows={data.totalElements}
-                                        onChangePage={handlePageChange}
-                                        onChangeRowsPerPage={handlePerRowsChange}
-                                        progressComponent={<Spinner color="danger">Ocitavanje...</Spinner>}
-                                        highlightOnHover
-            />}
-            <AllUserDialogs />
+            <Card>
+                <CardHeader className="d-flex justify-content-end">
+                    <Button className="btn btn-success me-3" variant="outline-light" onClick={() => {
+                        dispatch({
+                            type: listAction.CREATE
+                        })
+                    }}>
+                        Create User <IoAddCircleOutline />
+                    </Button>
+                </CardHeader>
+                <CardBody>
+                    {data != null && <DataTable data={data.users}
+                                                columns={tableColumns}
+                                                striped={true}
+                                                noHeader={true}
+                                                pagination
+                                                paginationServer
+                                                progressPending={loading}
+                                                paginationTotalRows={data.totalElements}
+                                                onChangePage={handlePageChange}
+                                                onChangeRowsPerPage={handlePerRowsChange}
+                                                progressComponent={<Spinner color="danger">Ocitavanje...</Spinner>}
+                                                highlightOnHover
+                    />}
+                </CardBody>
+            </Card>
+
+            <AllUserDialogs/>
         </>
     );
 }
