@@ -15,15 +15,11 @@ export default function RootLayout({children}) {
         <div className="container py-3">
             <Header />
             <main>
-                <Provider>
-                    <SessionStatusWrapper>
-                        <TestProvider>
-                            <ListActionProvider>
-                                {children}
-                            </ListActionProvider>
-                        </TestProvider>
-                    </SessionStatusWrapper>
-                </Provider>
+                <TestProvider>
+                    <ListActionProvider>
+                        {children}
+                    </ListActionProvider>
+                </TestProvider>
             </main>
             <Footer />
         </div>
