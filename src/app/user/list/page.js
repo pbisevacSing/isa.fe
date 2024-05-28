@@ -9,6 +9,7 @@ import {useListActions} from "@/contexts/listActionContext";
 import listAction from "@/core/listAction";
 import AllUserDialogs from "@/elements/User/AllUserDialogs";
 import {IoAddCircleOutline} from "react-icons/io5";
+import {signIn} from "next-auth/react";
 
 export const tableColumns = [
     {
@@ -91,12 +92,14 @@ export default function UserList() {
         <>
             <Card>
                 <CardHeader className="d-flex justify-content-end">
+                    <button onClick={() => signIn()}>Sign in</button>
+
                     <Button className="btn btn-success me-3" variant="outline-light" onClick={() => {
                         dispatch({
                             type: listAction.CREATE
                         })
                     }}>
-                        Create User <IoAddCircleOutline />
+                        Create User <IoAddCircleOutline/>
                     </Button>
                 </CardHeader>
                 <CardBody>

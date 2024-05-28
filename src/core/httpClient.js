@@ -17,7 +17,7 @@ export const post = async (url, params) => {
     try {
         return await Axios.post(url, params);
     } catch {
-        toast.error("Unsuccessfully saved!");
+        toast.error("Unsuccessfully!");
     }
 }
 

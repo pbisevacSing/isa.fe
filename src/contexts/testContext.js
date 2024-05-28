@@ -11,7 +11,6 @@ const testContext = createContext();
 
 // 2. Korak - kreiranje reducera -> funkcije koje ce promeniti stanje u contextu
 const testReducer = (state, action) => {
-    console.log(action);
     switch (action.type) {
         case testAction.CHANGE_EMAIL:
             return {...state, email: action.payload};
