@@ -6,6 +6,10 @@ import {Row, Spinner} from "reactstrap";
 export default function SessionStatusWrapper({children}) {
     const {data: session, status} = useSession();
 
+    if (session && session.user){
+        console.log(session.user?.token)
+    }
+
     return (
         <>
             {status === "loading" ?
