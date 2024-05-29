@@ -1,6 +1,10 @@
 import Link from "next/link";
+import {signIn, signOut, useSession} from "next-auth/react";
+import {Button} from "reactstrap";
 
 export default function Header() {
+    const {data: session} = useSession();
+
     return (
         <header>
             <div className="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
@@ -15,6 +19,15 @@ export default function Header() {
                 </Link>
                 <nav className="d-inline-flex mt-2 mt-md-0 ms-md-auto">
                     <Link href="/user/list" className="me-3 py-2 text-dark text-decoration-none">Users</Link>
+                    {session == null ?
+                        (<Button className="btn btn-sm btn-light" onClick={() => signIn()}> Login </Button>) :
+                        (
+                            <>
+                                <Link href="/" className="me-3 py-2 text-dark text-decoration-none">{session.user?.email}</Link>
+                                <Button className="btn btn-sm btn-light" onClick={() => signOut()}> Sign out </Button>
+                            </>
+                        )
+                    }
                 </nav>
             </div>
         </header>

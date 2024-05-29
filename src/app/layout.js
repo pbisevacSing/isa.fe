@@ -2,13 +2,13 @@
 
 import "bootstrap/dist/css/bootstrap.min.css"
 import "react-toastify/dist/ReactToastify.css";
-import Header from "@/components/Header/Header";
 import Provider from "@/app/providers";
 import SessionStatusWrapper from "@/components/Session/SessionStatusWrapper";
+import Header from "@/components/Header/Header";
 import {TestProvider} from "@/contexts/testContext";
 import {ListActionProvider} from "@/contexts/listActionContext";
-import {ToastContainer} from "react-toastify";
 import Footer from "@/components/Footer/Footer";
+import {ToastContainer} from "react-toastify";
 
 export default function RootLayout({children}) {
     return (

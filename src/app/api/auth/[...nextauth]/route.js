@@ -24,22 +24,22 @@ const handler = NextAuth({
             },
         }),
     ],
-    // callbacks: {
-    //     async jwt({ token, user, trigger, session }) {
-    //         if (trigger === "update") {
-    //             return { ...token, ...session.user };
-    //         }
-    //         return { ...token, ...user };
-    //     },
-    //
-    //     async session({ session, token }) {
-    //         session.user = token;
-    //         return session;
-    //     },
-    // },
-    pages: {
-        signIn: "/auth/login",
+    callbacks: {
+        async jwt({ token, user, trigger, session }) {
+            if (trigger === "update") {
+                return { ...token, ...session.user };
+            }
+            return { ...token, ...user };
+        },
+
+        async session({ session, token }) {
+            session.user = token;
+            return session;
+        },
     },
+    // pages: {
+    //     signIn: "/auth/login",
+    // },
 });
 
 export {handler as GET, handler as POST};

@@ -2,14 +2,15 @@
 import useListData from "@/hooks/useListData";
 import DataTable from "react-data-table-component";
 import {useEffect, useState} from "react";
-import {Button, Card, CardBody, CardHeader, Row, Spinner} from "reactstrap";
-import {useTestActions} from "@/contexts/testContext";
+import {Button, Card, CardBody, CardHeader, Spinner} from "reactstrap";
 import {CiEdit, CiTrash} from "react-icons/ci";
 import {useListActions} from "@/contexts/listActionContext";
 import listAction from "@/core/listAction";
 import AllUserDialogs from "@/elements/User/AllUserDialogs";
 import {IoAddCircleOutline} from "react-icons/io5";
-import {signIn} from "next-auth/react";
+import {useSession} from "next-auth/react";
+import {decodeFromBase64} from "next/dist/build/webpack/loaders/utils";
+import {decode} from "next-auth/jwt";
 
 export const tableColumns = [
     {
@@ -88,12 +89,12 @@ export default function UserList() {
         setPageSize(newPerPage);
     };
 
+    const {data: session, status} = useSession();
+
     return (
         <>
             <Card>
                 <CardHeader className="d-flex justify-content-end">
-                    <button onClick={() => signIn()}>Sign in</button>
-
                     <Button className="btn btn-success me-3" variant="outline-light" onClick={() => {
                         dispatch({
                             type: listAction.CREATE
