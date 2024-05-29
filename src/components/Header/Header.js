@@ -20,7 +20,10 @@ export default function Header() {
                 <nav className="d-inline-flex mt-2 mt-md-0 ms-md-auto">
                     <Link href="/user/list" className="me-3 py-2 text-dark text-decoration-none">Users</Link>
                     {session && session.user ? (
-                        <Button className="btn btn-small btn-outline-light" onClick={() => { signOut() }}>Sign out</Button>
+                        <>
+                            <Link href="/" className="me-3 py-2 text-dark text-decoration-none">{session.decoded.email}</Link>
+                            <Button className="btn btn-small btn-outline-light" onClick={() => { signOut() }}>Sign out</Button>
+                        </>
                     ) : (
                         <Button className="btn btn-small btn-outline-light" onClick={() => { signIn() }}>Sign in</Button>
                     )}
