@@ -5,7 +5,7 @@ import {AxiosAuth} from "@/core/httpClient";
 
 
 const useAuth = () => {
-    const {data: session} = useSession();
+    const {data: session, status} = useSession();
     const refreshToken = useRefreshToken();
 
     useEffect(() => {
@@ -24,13 +24,17 @@ const useAuth = () => {
             (response) => response,
             async (error) => {
                 const prevRequest = error?.config;
+
                 if ((error?.response?.status === 401 || error?.response?.status === 403) && !prevRequest?.sent) {
                     prevRequest.sent = true;
 
                     const refreshTokenResponse = await refreshToken();
 
-                    prevRequest.headers["Authorization"] = `Bearer ${refreshTokenResponse.token}`;
-                    return AxiosAuth(prevRequest);
+                    if (refreshTokenResponse && refreshTokenResponse.token)
+                    {
+                        prevRequest.headers["Authorization"] = `Bearer ${refreshTokenResponse.token}`;
+                        return AxiosAuth(prevRequest);
+                    }
                 }
 
                 return Promise.reject(error);

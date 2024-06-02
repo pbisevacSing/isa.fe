@@ -10,6 +10,7 @@ import listAction from "@/core/listAction";
 import AllUserDialogs from "@/elements/User/AllUserDialogs";
 import {IoAddCircleOutline} from "react-icons/io5";
 import {signIn, useSession} from "next-auth/react";
+import useAuth from "@/hooks/useAuth";
 
 export const tableColumns = [
     {
@@ -88,9 +89,16 @@ export default function UserList() {
         setPageSize(newPerPage);
     };
 
-    const {data: session, status} = useSession();
+    const AxiosAuth = useAuth();
 
-    console.log(session);
+    const callTest = async () => {
+        const test = await AxiosAuth.get("/user/get-list")
+        console.log(test)
+    }
+
+    useEffect(() => {
+       callTest();
+    }, []);
 
     return (
         <>
