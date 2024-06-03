@@ -10,7 +10,7 @@ const useListData = (url) => {
     const getData = useCallback(async (url) => {
         setLoading(true);
 
-        let result = await get(url);
+        let result = await AxiosAuth.get(url);
 
         setData(result.data);
         setLoading(false);
