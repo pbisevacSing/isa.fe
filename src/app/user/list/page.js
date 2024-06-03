@@ -11,6 +11,7 @@ import AllUserDialogs from "@/elements/User/AllUserDialogs";
 import {IoAddCircleOutline} from "react-icons/io5";
 import {signIn, useSession} from "next-auth/react";
 import useAuth from "@/hooks/useAuth";
+import storageKey from "@/core/storageKey";
 
 export const tableColumns = [
     {
@@ -88,17 +89,6 @@ export default function UserList() {
         setPageNumber(page);
         setPageSize(newPerPage);
     };
-
-    const AxiosAuth = useAuth();
-
-    const callTest = async () => {
-        const test = await AxiosAuth.get("/user/get-list")
-        console.log(test)
-    }
-
-    useEffect(() => {
-       callTest();
-    }, []);
 
     return (
         <>
